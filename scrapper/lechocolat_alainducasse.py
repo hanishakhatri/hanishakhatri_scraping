@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import re
+from validation import Validation
 
 def scrape_le_chocolat_urls(base_url):
     # Send a GET request to the website
@@ -47,6 +48,10 @@ def scrape_specific_ur(url):
         product_detail["description"] = get_project_description(product_detail["url"])
         product_detail["images"] = [product_detail["image"]]
         product_details.append(product_detail)
+    errors = validation(product_details)
+    print(errors)
+    if errors is not None:
+        print(errors)
     return product_details
 
 def get_project_description(project_url):
@@ -64,6 +69,12 @@ def convert_list_to_json(data_list):
     # Extract the fieldnames from the first dictionary (assuming all dictionaries have the same keys)
     with open(output_file, 'w') as f:
         json.dump(data_list, f, indent=4)
+    print("succesfully created json file")
+        
+def validation(product_data):
+    validator = Validation(product_data)
+    validation_errors = validator.validate()
+    return validation_errors
 
 
 def main():

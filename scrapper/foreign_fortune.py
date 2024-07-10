@@ -4,6 +4,7 @@ import math
 import re
 import json
 from collections import defaultdict
+from validation import Validation
 
 def scrape_foreign_fortune_urls(base_url):
     # Send a GET request to the website
@@ -46,6 +47,9 @@ def scrape_specific_ur(url):
                 product_url = 'https://foreignfortune.com' + link
                 product_detail = scrape_product(product_url)
                 project_details.append(product_detail)
+    errors = validation(project_details)
+    if errors is not None:
+        print(errors)
     return project_details
 
 
@@ -189,6 +193,11 @@ def convert_list_to_json(data_list):
     # Extract the fieldnames from the first dictionary (assuming all dictionaries have the same keys)
     with open(output_file, 'w') as f:
         json.dump(data_list, f, indent=4)
+        
+def validation(product_data):
+    validator = Validation(product_data)
+    validation_errors = validator.validate()
+    return validation_errors
 
 def main():
     try:
