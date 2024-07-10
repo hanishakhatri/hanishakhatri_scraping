@@ -4,12 +4,8 @@ import math
 import re
 import json
 from collections import defaultdict
-import csv
 
 def scrape_foreign_fortune_urls(base_url):
-    
-    base_url = "https://foreignfortune.com/"
-    
     # Send a GET request to the website
     response = requests.get(base_url)
     
