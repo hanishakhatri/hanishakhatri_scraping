@@ -105,11 +105,10 @@ def main():
         base_url = "https://www.traderjoes.com/home/products/category/products-2"
         driver = selenium_driver(base_url)
         product_url = scrape_product_urls(driver)
-        while driver:
+        for i in range(0,10):
             if product_url:
                 product_urls.extend(product_url)
             driver = click_next_page(driver)
-        print(len(product_urls))
         for url in product_urls:
             project_detail = url_specific_project_details(url)
             project_details.append(project_detail)
